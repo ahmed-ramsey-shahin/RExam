@@ -4,7 +4,6 @@ import jakarta.persistence.*;
 
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
-import java.io.Serial;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -13,7 +12,7 @@ import java.util.List;
 @Table(name = "EXAM")
 public class Exam implements Serializable {
 	
-	@Serial private static final long serialVersionUID = -5135136267151550865L;
+	private static final long serialVersionUID = -5135136267151550865L;
 	
 	@Id
 	@SequenceGenerator(
