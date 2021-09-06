@@ -38,10 +38,9 @@ public class Question implements Serializable {
 	@ManyToMany
 	private List<Answer> answers;
 	
-	public List<Answer> getAnswers() {
-		
-		return answers;
-	}
+	@JoinColumn(nullable = false)
+	@ManyToOne(optional = false)
+	private Answer rightAnswer;
 	
 	public Question(Long id, String question, Integer score) {
 		
@@ -86,6 +85,30 @@ public class Question implements Serializable {
 	public void setScore(Integer score) {
 		
 		this.score = score;
+		
+	}
+	
+	public List<Answer> getAnswers() {
+		
+		return answers;
+		
+	}
+	
+	public void setAnswers(List<Answer> answers) {
+		
+		this.answers = answers;
+		
+	}
+	
+	public Answer getRightAnswer() {
+		
+		return rightAnswer;
+		
+	}
+	
+	public void setRightAnswer(Answer rightAnswer) {
+		
+		this.rightAnswer = rightAnswer;
 		
 	}
 	
