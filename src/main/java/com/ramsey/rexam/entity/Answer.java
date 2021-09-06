@@ -2,14 +2,12 @@ package com.ramsey.rexam.entity;
 
 import jakarta.persistence.*;
 
-import java.io.Serial;
 import java.io.Serializable;
 
 @Entity
 @Table(name = "ANSWER")
 public class Answer implements Serializable {
 	
-	@Serial
 	private static final long serialVersionUID = 5706383089070285644L;
 	
 	@Id

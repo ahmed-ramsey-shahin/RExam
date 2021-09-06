@@ -3,7 +3,6 @@ package com.ramsey.rexam.entity;
 import jakarta.persistence.*;
 
 import javax.validation.constraints.Min;
-import java.io.Serial;
 import java.io.Serializable;
 import java.util.List;
 
@@ -11,7 +10,6 @@ import java.util.List;
 @Table(name = "QUESTION")
 public class Question implements Serializable {
 	
-	@Serial
 	private static final long serialVersionUID = -2303494646424526554L;
 	
 	@Id
