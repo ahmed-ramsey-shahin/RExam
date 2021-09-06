@@ -67,6 +67,16 @@
             <artifactId>mysql-connector-java</artifactId>
             <version>8.0.25</version>
         </dependency>
+        <dependency>
+            <groupId>org.glassfish.main.ejb</groupId>
+            <artifactId>ejb-container</artifactId>
+            <version>6.2.1</version>
+        </dependency>
+        <dependency>
+            <groupId>org.jboss.weld.se</groupId>
+            <artifactId>weld-se-shaded</artifactId>
+            <version>4.0.2.Final</version>
+        </dependency>
     </dependencies>
 
     <build>
@@ -76,7 +86,7 @@
                 <artifactId>javafx-maven-plugin</artifactId>
                 <version>0.0.6</version>
                 <configuration>
-                    <mainClass>com.ramsey.rexam.main.Main</mainClass>
+                    <mainClass>com.ramsey.rexam.main.RExam</mainClass>
                 </configuration>
             </plugin>
         </plugins>
