@@ -27,6 +27,22 @@ public class ExamBean {
 		
 	}
 	
+	public Boolean addExam(Exam exam) {
+		
+		em.getTransaction().begin();
+		em.persist(exam);
+		em.getTransaction().commit();
+		
+		if(exam.getId() != null) {
+			
+			return getExam(exam.getId()) != null;
+			
+		}
+		
+		return false;
+		
+	}
+	
 	public List<Exam> getExams() {
 		
 		CriteriaBuilder cb = em.getCriteriaBuilder();
@@ -43,7 +59,7 @@ public class ExamBean {
 		CriteriaQuery<Exam> cq = cb.createQuery(Exam.class);
 		Root<Exam> root = cq.from(Exam.class);
 		cq.select(root);
-		cq.where(cb.like(root.get("name"), String.format("%%%s%%", examName)));
+		cq.where(cb.like(cb.lower(root.get("name")), String.format("%%%s%%", examName.toLowerCase())));
 		return em.createQuery(cq).getResultList();
 		
 	}
