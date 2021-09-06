@@ -1,6 +1,7 @@
 package com.ramsey.rexam.entity;
 
 import jakarta.persistence.*;
+import org.jetbrains.annotations.NotNull;
 
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
@@ -37,10 +38,6 @@ public class Exam implements Serializable {
 	@Column(nullable = false)
 	private Integer timeInMinutes;
 	
-	@JoinTable(
-			name = "EXAM_questions",
-			joinColumns = @JoinColumn(name = "exam_id", referencedColumnName = "questions_id")
-	)
 	@ManyToMany
 	private List<Question> questions;
 	
@@ -118,6 +115,16 @@ public class Exam implements Serializable {
 	public void setQuestions(List<Question> questions) {
 		
 		this.questions = questions;
+		
+	}
+	
+	public void copy(@NotNull Exam exam) {
+		
+		setName(exam.getName());
+		setTimeInMinutes(exam.getTimeInMinutes());
+		setPassingScore(exam.getPassingScore());
+		getQuestions().clear();
+		exam.getQuestions().forEach(getQuestions()::add);
 		
 	}
 	

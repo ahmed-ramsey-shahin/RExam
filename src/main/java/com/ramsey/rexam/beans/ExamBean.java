@@ -1,11 +1,13 @@
 package com.ramsey.rexam.beans;
 
 import com.ramsey.rexam.entity.Exam;
+import com.ramsey.rexam.exception.ExamNotFoundError;
 import jakarta.annotation.PostConstruct;
 import jakarta.annotation.PreDestroy;
 import jakarta.enterprise.context.Dependent;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
+import jakarta.persistence.NoResultException;
 import jakarta.persistence.Persistence;
 import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.CriteriaQuery;
@@ -35,7 +37,15 @@ public class ExamBean {
 		
 		if(exam.getId() != null) {
 			
-			return getExam(exam.getId()) != null;
+			try {
+				
+				return getExam(exam.getId()) != null;
+				
+			} catch(ExamNotFoundError ex) {
+				
+				return false;
+				
+			}
 			
 		}
 		
@@ -60,7 +70,15 @@ public class ExamBean {
 		Root<Exam> root = cq.from(Exam.class);
 		cq.select(root);
 		cq.where(cb.like(cb.lower(root.get("name")), String.format("%%%s%%", examName.toLowerCase())));
-		return em.createQuery(cq).getResultList();
+		List<Exam> exams = em.createQuery(cq).getResultList();
+		
+		if(exams == null || exams.isEmpty()) {
+			
+			throw new ExamNotFoundError(examName);
+			
+		}
+		
+		return exams;
 		
 	}
 	
@@ -71,7 +89,48 @@ public class ExamBean {
 		Root<Exam> root = cq.from(Exam.class);
 		cq.select(root);
 		cq.where(cb.equal(root.get("id"), examId));
-		return em.createQuery(cq).getSingleResult();
+		
+		try {
+			
+			return em.createQuery(cq).getSingleResult();
+			
+		} catch(NoResultException ex) {
+			
+			throw new ExamNotFoundError(examId);
+			
+		}
+		
+	}
+	
+	public Exam updateExam(Long examId, Exam exam) {
+		
+		Exam oldExam = getExam(examId);
+		oldExam.copy(exam);
+		em.getTransaction().begin();
+		em.merge(oldExam);
+		em.getTransaction().commit();
+		return oldExam;
+		
+	}
+	
+	public Boolean deleteExam(Long examId) {
+		
+		em.getTransaction().begin();
+		Exam exam = getExam(examId);
+		em.remove(exam);
+		em.getTransaction().commit();
+		
+		try {
+			
+			getExam(examId);
+			
+		} catch(ExamNotFoundError ex) {
+			
+			return true;
+			
+		}
+		
+		return false;
 		
 	}
 	

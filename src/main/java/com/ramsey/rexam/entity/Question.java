@@ -31,10 +31,6 @@ public class Question implements Serializable {
 	@Min(0)
 	private Integer score;
 	
-	@JoinTable(
-			name = "QUESTION_answers",
-			joinColumns = @JoinColumn(name = "question_id", referencedColumnName = "answers_id")
-	)
 	@ManyToMany
 	private List<Answer> answers;
 	
