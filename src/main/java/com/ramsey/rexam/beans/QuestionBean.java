@@ -101,7 +101,13 @@ public class QuestionBean extends Bean {
 	public Question updateQuestion(Long questionId, Question question) {
 		
 		Question oldQuestion = getQuestion(questionId);
-		oldQuestion.copy(question);
+		
+		if(oldQuestion != question) {
+			
+			oldQuestion.copy(question);
+			
+		}
+		
 		getEm().getTransaction().begin();
 		getEm().merge(oldQuestion);
 		getEm().getTransaction().commit();

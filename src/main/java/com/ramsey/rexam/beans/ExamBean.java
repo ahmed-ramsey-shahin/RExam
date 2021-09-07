@@ -114,8 +114,8 @@ public class ExamBean extends Bean {
 	
 	public Boolean deleteExam(Long examId) {
 		
-		getEm().getTransaction().begin();
 		Exam exam = getExam(examId);
+		getEm().getTransaction().begin();
 		getEm().remove(exam);
 		getEm().getTransaction().commit();
 		
