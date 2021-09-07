@@ -130,7 +130,7 @@ public class ExamBean extends Bean {
 	@PreDestroy
 	public void clean() {
 		
-		super.clear();
+		super.clean();
 		
 	}
 	

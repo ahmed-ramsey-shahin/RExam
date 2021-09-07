@@ -15,7 +15,7 @@ public abstract class Bean {
 		
 	}
 	
-	public void clear() {
+	public void clean() {
 		
 		if(em.isOpen()) {
 			

@@ -131,9 +131,9 @@ public class QuestionBean extends Bean {
 	}
 	
 	@PreDestroy
-	public void clear() {
+	public void clean() {
 		
-		super.clear();
+		super.clean();
 		
 	}
 	
