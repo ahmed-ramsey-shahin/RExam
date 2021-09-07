@@ -5,10 +5,7 @@ import com.ramsey.rexam.exception.ExamNotFoundError;
 import jakarta.annotation.PostConstruct;
 import jakarta.annotation.PreDestroy;
 import jakarta.enterprise.context.Dependent;
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.NoResultException;
-import jakarta.persistence.Persistence;
 import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.CriteriaQuery;
 import jakarta.persistence.criteria.Root;
@@ -16,24 +13,20 @@ import jakarta.persistence.criteria.Root;
 import java.util.List;
 
 @Dependent
-public class ExamBean {
-	
-	private EntityManager em;
-	private static final String persistenceUnitName = "RExamPU";
+public class ExamBean extends Bean {
 	
 	@PostConstruct
 	public void init() {
 		
-		EntityManagerFactory emf = Persistence.createEntityManagerFactory(persistenceUnitName);
-		em = emf.createEntityManager();
+		super.init();
 		
 	}
 	
 	public Boolean addExam(Exam exam) {
 		
-		em.getTransaction().begin();
-		em.persist(exam);
-		em.getTransaction().commit();
+		getEm().getTransaction().begin();
+		getEm().persist(exam);
+		getEm().getTransaction().commit();
 		
 		if(exam.getId() != null) {
 			
@@ -55,22 +48,22 @@ public class ExamBean {
 	
 	public List<Exam> getExams() {
 		
-		CriteriaBuilder cb = em.getCriteriaBuilder();
+		CriteriaBuilder cb = getEm().getCriteriaBuilder();
 		CriteriaQuery<Exam> cq = cb.createQuery(Exam.class);
 		Root<Exam> root = cq.from(Exam.class);
 		cq.select(root);
-		return em.createQuery(cq).getResultList();
+		return getEm().createQuery(cq).getResultList();
 		
 	}
 	
 	public List<Exam> getExams(String examName) {
 		
-		CriteriaBuilder cb = em.getCriteriaBuilder();
+		CriteriaBuilder cb = getEm().getCriteriaBuilder();
 		CriteriaQuery<Exam> cq = cb.createQuery(Exam.class);
 		Root<Exam> root = cq.from(Exam.class);
 		cq.select(root);
 		cq.where(cb.like(cb.lower(root.get("name")), String.format("%%%s%%", examName.toLowerCase())));
-		List<Exam> exams = em.createQuery(cq).getResultList();
+		List<Exam> exams = getEm().createQuery(cq).getResultList();
 		
 		if(exams == null || exams.isEmpty()) {
 			
@@ -84,7 +77,7 @@ public class ExamBean {
 	
 	public Exam getExam(Long examId) {
 		
-		CriteriaBuilder cb = em.getCriteriaBuilder();
+		CriteriaBuilder cb = getEm().getCriteriaBuilder();
 		CriteriaQuery<Exam> cq = cb.createQuery(Exam.class);
 		Root<Exam> root = cq.from(Exam.class);
 		cq.select(root);
@@ -92,7 +85,7 @@ public class ExamBean {
 		
 		try {
 			
-			return em.createQuery(cq).getSingleResult();
+			return getEm().createQuery(cq).getSingleResult();
 			
 		} catch(NoResultException ex) {
 			
@@ -106,19 +99,19 @@ public class ExamBean {
 		
 		Exam oldExam = getExam(examId);
 		oldExam.copy(exam);
-		em.getTransaction().begin();
-		em.merge(oldExam);
-		em.getTransaction().commit();
+		getEm().getTransaction().begin();
+		getEm().merge(oldExam);
+		getEm().getTransaction().commit();
 		return oldExam;
 		
 	}
 	
 	public Boolean deleteExam(Long examId) {
 		
-		em.getTransaction().begin();
+		getEm().getTransaction().begin();
 		Exam exam = getExam(examId);
-		em.remove(exam);
-		em.getTransaction().commit();
+		getEm().remove(exam);
+		getEm().getTransaction().commit();
 		
 		try {
 			
@@ -137,7 +130,7 @@ public class ExamBean {
 	@PreDestroy
 	public void clean() {
 		
-		em.close();
+		super.clear();
 		
 	}
 	
