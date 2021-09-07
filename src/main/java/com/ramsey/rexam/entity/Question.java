@@ -31,11 +31,11 @@ public class Question implements Serializable {
 	@Min(0)
 	private Integer score;
 	
-	@ManyToMany
+	@ManyToMany(cascade = {CascadeType.PERSIST})
 	private List<Answer> answers;
 	
 	@JoinColumn(nullable = false)
-	@ManyToOne(optional = false)
+	@ManyToOne(optional = false, cascade = {CascadeType.PERSIST})
 	private Answer rightAnswer;
 	
 	public Question(Long id, String question, Integer score) {

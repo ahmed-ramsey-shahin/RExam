@@ -38,7 +38,7 @@ public class Exam implements Serializable {
 	@Column(nullable = false)
 	private Integer timeInMinutes;
 	
-	@ManyToMany
+	@ManyToMany(cascade = {CascadeType.PERSIST})
 	private List<Question> questions;
 	
 	{
