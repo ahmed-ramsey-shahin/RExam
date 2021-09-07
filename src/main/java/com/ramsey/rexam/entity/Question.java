@@ -26,17 +26,17 @@ public class Question implements Serializable {
 	@Column(updatable = false)
 	private Long id;
 	
-	@Column(unique = true)
+	@Column(unique = true, columnDefinition = "TEXT")
 	private String question;
 	
 	@Min(0)
 	private Integer score;
 	
-	@ManyToMany(cascade = {CascadeType.PERSIST})
+	@ManyToMany
 	private List<Answer> answers;
 	
 	@JoinColumn(nullable = false)
-	@ManyToOne(optional = false, cascade = {CascadeType.PERSIST})
+	@ManyToOne(optional = false)
 	private Answer rightAnswer;
 	
 	{

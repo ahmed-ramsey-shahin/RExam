@@ -98,7 +98,13 @@ public class ExamBean extends Bean {
 	public Exam updateExam(Long examId, Exam exam) {
 		
 		Exam oldExam = getExam(examId);
-		oldExam.copy(exam);
+		
+		if(oldExam != exam) {
+			
+			oldExam.copy(exam);
+			
+		}
+		
 		getEm().getTransaction().begin();
 		getEm().merge(oldExam);
 		getEm().getTransaction().commit();

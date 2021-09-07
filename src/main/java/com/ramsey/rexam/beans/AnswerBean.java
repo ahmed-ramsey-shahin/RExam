@@ -4,11 +4,13 @@ import com.ramsey.rexam.entity.Answer;
 import com.ramsey.rexam.exception.AnswerNotFoundError;
 import jakarta.annotation.PostConstruct;
 import jakarta.annotation.PreDestroy;
+import jakarta.enterprise.context.Dependent;
 import jakarta.persistence.NoResultException;
 import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.CriteriaQuery;
 import jakarta.persistence.criteria.Root;
 
+@Dependent
 public class AnswerBean extends Bean {
 	
 	@PostConstruct
