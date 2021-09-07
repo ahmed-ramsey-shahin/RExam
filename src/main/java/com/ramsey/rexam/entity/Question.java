@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 
 import javax.validation.constraints.Min;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -37,6 +38,12 @@ public class Question implements Serializable {
 	@JoinColumn(nullable = false)
 	@ManyToOne(optional = false, cascade = {CascadeType.PERSIST})
 	private Answer rightAnswer;
+	
+	{
+		
+		answers = new ArrayList<>();
+		
+	}
 	
 	public Question(Long id, String question, Integer score) {
 		
