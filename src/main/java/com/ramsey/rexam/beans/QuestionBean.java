@@ -11,6 +11,8 @@ import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.CriteriaQuery;
 import jakarta.persistence.criteria.Root;
 
+import java.util.List;
+
 @Dependent
 public class QuestionBean extends Bean {
 	
@@ -47,6 +49,35 @@ public class QuestionBean extends Bean {
 		
 	}
 	
+	public List<Question> getQuestions() {
+		
+		CriteriaBuilder cb = getEm().getCriteriaBuilder();
+		CriteriaQuery<Question> cq = cb.createQuery(Question.class);
+		Root<Question> root = cq.from(Question.class);
+		cq.select(root);
+		return getEm().createQuery(cq).getResultList();
+		
+	}
+	
+	public List<Question> getQuestions(String question) {
+		
+		CriteriaBuilder cb = getEm().getCriteriaBuilder();
+		CriteriaQuery<Question> cq = cb.createQuery(Question.class);
+		Root<Question> root = cq.from(Question.class);
+		cq.select(root);
+		cq.where(cb.like(cb.lower(root.get("question")), String.format("%%%s%%", question.toLowerCase())));
+		List<Question> questions = getEm().createQuery(cq).getResultList();
+		
+		if(questions == null || questions.isEmpty()) {
+			
+			throw new QuestionNotFoundError(question);
+			
+		}
+		
+		return questions;
+		
+	}
+	
 	public Question getQuestion(Long questionId) {
 		
 		CriteriaBuilder cb = getEm().getCriteriaBuilder();
@@ -64,6 +95,38 @@ public class QuestionBean extends Bean {
 			throw new QuestionNotFoundError(questionId);
 			
 		}
+		
+	}
+	
+	public Question updateQuestion(Long questionId, Question question) {
+		
+		Question oldQuestion = getQuestion(questionId);
+		oldQuestion.copy(question);
+		getEm().getTransaction().begin();
+		getEm().merge(oldQuestion);
+		getEm().getTransaction().commit();
+		return oldQuestion;
+		
+	}
+	
+	public Boolean deleteQuestion(Long questionId) {
+		
+		Question question = getQuestion(questionId);
+		getEm().getTransaction().begin();
+		getEm().remove(question);
+		getEm().getTransaction().commit();
+		
+		try {
+			
+			getQuestion(questionId);
+			
+		} catch(QuestionNotFoundError ex) {
+			
+			return true;
+			
+		}
+		
+		return false;
 		
 	}
 	

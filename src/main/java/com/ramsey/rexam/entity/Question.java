@@ -108,4 +108,19 @@ public class Question implements Serializable {
 		
 	}
 	
+	public void copy(Question question) {
+		
+		setQuestion(question.getQuestion());
+		setScore(question.getScore());
+		getAnswers().clear();
+		question.getAnswers().forEach(getAnswers()::add);
+		
+		if(question.getRightAnswer() != null) {
+			
+			setRightAnswer(question.getRightAnswer());
+			
+		}
+		
+	}
+	
 }
