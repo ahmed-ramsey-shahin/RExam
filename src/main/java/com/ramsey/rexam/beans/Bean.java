@@ -15,6 +15,12 @@ public abstract class Bean {
 		
 	}
 	
+	public EntityManager getEm() {
+		
+		return em;
+		
+	}
+	
 	public void clean() {
 		
 		if(em.isOpen()) {
@@ -22,12 +28,6 @@ public abstract class Bean {
 			em.close();
 			
 		}
-		
-	}
-	
-	public EntityManager getEm() {
-		
-		return em;
 		
 	}
 	

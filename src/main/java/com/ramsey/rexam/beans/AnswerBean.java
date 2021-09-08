@@ -2,9 +2,6 @@ package com.ramsey.rexam.beans;
 
 import com.ramsey.rexam.entity.Answer;
 import com.ramsey.rexam.exception.AnswerNotFoundError;
-import jakarta.annotation.PostConstruct;
-import jakarta.annotation.PreDestroy;
-import jakarta.enterprise.context.Dependent;
 import jakarta.persistence.NoResultException;
 import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.CriteriaQuery;
@@ -12,13 +9,25 @@ import jakarta.persistence.criteria.Root;
 
 import java.util.List;
 
-@Dependent
 public class AnswerBean extends Bean {
 	
-	@PostConstruct
-	public void init() {
+	private static AnswerBean instance;
+	
+	private AnswerBean() {
 		
-		super.init();
+		init();
+		
+	}
+	
+	public static AnswerBean getInstance() {
+		
+		if(instance == null) {
+			
+			instance = new AnswerBean();
+			
+		}
+		
+		return instance;
 		
 	}
 	
@@ -133,9 +142,9 @@ public class AnswerBean extends Bean {
 		
 	}
 	
-	@PreDestroy
 	public void clean() {
 		
+		instance = null;
 		super.clean();
 		
 	}

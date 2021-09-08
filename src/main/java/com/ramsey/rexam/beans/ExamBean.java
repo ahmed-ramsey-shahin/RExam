@@ -2,9 +2,6 @@ package com.ramsey.rexam.beans;
 
 import com.ramsey.rexam.entity.Exam;
 import com.ramsey.rexam.exception.ExamNotFoundError;
-import jakarta.annotation.PostConstruct;
-import jakarta.annotation.PreDestroy;
-import jakarta.enterprise.context.Dependent;
 import jakarta.persistence.NoResultException;
 import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.CriteriaQuery;
@@ -12,13 +9,25 @@ import jakarta.persistence.criteria.Root;
 
 import java.util.List;
 
-@Dependent
 public class ExamBean extends Bean {
 	
-	@PostConstruct
-	public void init() {
+	private static ExamBean instance;
+	
+	private ExamBean() {
 		
-		super.init();
+		init();
+		
+	}
+	
+	public static ExamBean getInstance() {
+		
+		if(instance == null) {
+			
+			instance = new ExamBean();
+			
+		}
+		
+		return instance;
 		
 	}
 	
@@ -133,9 +142,10 @@ public class ExamBean extends Bean {
 		
 	}
 	
-	@PreDestroy
+	@Override
 	public void clean() {
 		
+		instance = null;
 		super.clean();
 		
 	}
