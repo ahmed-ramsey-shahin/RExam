@@ -2,13 +2,17 @@ package com.ramsey.rexam.view;
 
 import com.ramsey.rexam.beans.ExamBean;
 import com.ramsey.rexam.exception.ExamNotFoundError;
+import com.ramsey.rexam.view.util.Pair;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.input.KeyEvent;
-import javafx.scene.input.MouseEvent;
+import javafx.stage.Stage;
 
+import java.io.IOException;
 import java.net.URL;
+import java.util.Objects;
 import java.util.ResourceBundle;
 
 public class MainScreenController implements Initializable {
@@ -19,8 +23,6 @@ public class MainScreenController implements Initializable {
 	public ComboBox<Pair<String, Long>> examComboBox;
 	@FXML
 	public TextField filterTextField;
-	@FXML
-	public Button startButton;
 	@FXML
 	public Label warningText;
 	private ExamBean examBean;
@@ -36,7 +38,7 @@ public class MainScreenController implements Initializable {
  	
 	}
 	
-	public void filterTextFieldKeyReleased(KeyEvent keyEvent) {
+	public void filterTextFieldKeyReleased() {
 		
 		String filterCriteria = filterTextField.getText();
 		examComboBox.getItems().clear();
@@ -54,9 +56,35 @@ public class MainScreenController implements Initializable {
 		
 	}
 	
-	public void startButtonMouseClicked(MouseEvent mouseEvent) {
+	public void startButtonMouseClicked() throws IOException {
 		
-		//
+		String studentName = studentNameTextField.getText();
+		Pair<String, Long> selectedExam = examComboBox.getSelectionModel().getSelectedItem();
+		
+		if(studentName.trim().equals("")) {
+			
+			warningText.setText("Student name must not be empty");
+			return;
+			
+		}
+		
+		if(selectedExam == null) {
+			
+			warningText.setText("Select an exam first");
+			return;
+			
+		}
+		
+		Stage stage = (Stage) filterTextField.getScene().getWindow();
+		FXMLLoader loader = new FXMLLoader(
+				Objects.requireNonNull(getClass().getClassLoader().getResource("TestInfoScreen.fxml"))
+		);
+		Scene scene = new Scene(loader.load());
+		stage.setScene(scene);
+		stage.centerOnScreen();
+		stage.setTitle("Test Info");
+		stage.show();
+		((TestInfoScreenController) loader.getController()).init(studentName, selectedExam.getValue());
 		
 	}
 	

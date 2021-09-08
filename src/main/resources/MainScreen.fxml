@@ -26,7 +26,7 @@
           <Font size="20.0" />
         </font>
     </Label>
-    <Button fx:id="startButton" layoutX="10.0" layoutY="142.0" mnemonicParsing="false" onMouseClicked="#startButtonMouseClicked" text="Start The Exam" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="137.0" />
+    <Button layoutX="10.0" layoutY="142.0" mnemonicParsing="false" onMouseClicked="#startButtonMouseClicked" text="Start The Exam" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="137.0" />
     <Label fx:id="warningText" layoutX="14.0" layoutY="175.0" text="Warnings" textFill="RED" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="178.0">
         <font>
           <Font size="20.0" />
