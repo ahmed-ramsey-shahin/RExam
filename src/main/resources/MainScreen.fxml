@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="281.0" prefWidth="390.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.ramsey.rexam.view.MainScreenController">
+    <Label layoutX="14.0" layoutY="14.0" text="Student Name" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="14.0">
+        <font>
+          <Font size="20.0" />
+        </font>
+    </Label>
+    <TextField fx:id="studentNameTextField" layoutX="153.0" layoutY="14.0" prefHeight="26.0" prefWidth="220.0" AnchorPane.leftAnchor="153.0" AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="14.0" />
+    <Label layoutX="14.0" layoutY="55.0" text="Exam" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="55.0">
+        <font>
+          <Font size="20.0" />
+        </font>
+    </Label>
+    <ComboBox fx:id="examComboBox" layoutX="153.0" layoutY="55.0" prefHeight="26.0" prefWidth="220.0" AnchorPane.leftAnchor="153.0" AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="55.0" />
+    <TextField fx:id="filterTextField" layoutX="153.0" layoutY="96.0" onKeyReleased="#filterTextFieldKeyReleased" prefHeight="26.0" prefWidth="220.0" AnchorPane.leftAnchor="153.0" AnchorPane.rightAnchor="14.0" />
+    <Label layoutX="14.0" layoutY="96.0" text="Filter" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="96.0">
+        <font>
+          <Font size="20.0" />
+        </font>
+    </Label>
+    <Button fx:id="startButton" layoutX="10.0" layoutY="142.0" mnemonicParsing="false" onMouseClicked="#startButtonMouseClicked" text="Start The Exam" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="137.0" />
+    <Label fx:id="warningText" layoutX="14.0" layoutY="175.0" text="Warnings" textFill="RED" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="178.0">
+        <font>
+          <Font size="20.0" />
+        </font>
+    </Label>
+</AnchorPane>
