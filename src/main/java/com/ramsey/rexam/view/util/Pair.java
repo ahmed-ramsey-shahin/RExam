@@ -1,4 +1,4 @@
-package com.ramsey.rexam.view;
+package com.ramsey.rexam.view.util;
 
 public class Pair<K, V> {
 	
