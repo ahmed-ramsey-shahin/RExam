@@ -39,7 +39,6 @@ public class TestScreenController {
 	private Exam exam;
 	private LinkedList<Pair<Node, QuestionPanelController>> questionPanels;
 	private LinkedList<Pair<Node, QuestionPanelController>>.Node currentNode;
-	private Thread timerThread;
 	private MediaPlayer player;
 	
 	public void init(String studentName, Exam exam) {
@@ -119,7 +118,7 @@ public class TestScreenController {
 	
 	private void startTimer() {
 		
-		timerThread = new Thread(
+		Thread timerThread = new Thread(
 				new SecondsCounter(exam.getTimeInMinutes() * 60L, timerText, this)
 		);
 		timerThread.setDaemon(true);
