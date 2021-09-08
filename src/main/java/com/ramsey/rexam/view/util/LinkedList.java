@@ -6,12 +6,9 @@ public class LinkedList<T> {
 	private Node tail;
 	private Integer size;
 	
-	public void insertFirst(T data) {
+	public LinkedList() {
 		
-		Node newNode = new Node(data);
-		newNode.next = head;
-		head = newNode;
-		size++;
+		size = 0;
 		
 	}
 	
@@ -19,6 +16,7 @@ public class LinkedList<T> {
 		
 		Node newNode = new Node(data);
 		newNode.next = null;
+		newNode.prev = tail;
 		
 		if(head == null) {
 			
@@ -31,37 +29,8 @@ public class LinkedList<T> {
 			tail = tail.next;
 			
 		}
+		
 		size++;
-		
-	}
-	
-	public Node get(Integer index) {
-		
-		if(isEmpty())
-			return null;
-		
-		Node current = head;
-		Integer counter = 0;
-		
-		while(current != null && !counter.equals(index)) {
-			
-			current = current.next;
-			counter++;
-			
-		}
-		
-		return current;
-		
-	}
-	
-	public Node deleteFirst() {
-		
-		if(isEmpty())
-			return null;
-		Node temp = head;
-		head = head.next;
-		size--;
-		return temp;
 		
 	}
 	
@@ -71,13 +40,7 @@ public class LinkedList<T> {
 		
 	}
 	
-	public Boolean isEmpty() {
-		
-		return head == null;
-		
-	}
-	
-	public Integer getSize() {
+	public Integer size() {
 		
 		return size;
 		
@@ -86,11 +49,13 @@ public class LinkedList<T> {
 	public class Node {
 		
 		private final T data;
+		private Node prev;
 		private Node next;
 		
 		private Node(T data) {
 			
 			this.data = data;
+			prev = null;
 			next = null;
 			
 		}
@@ -98,6 +63,12 @@ public class LinkedList<T> {
 		public T getData() {
 			
 			return data;
+			
+		}
+		
+		public Node getPrevious() {
+			
+			return prev;
 			
 		}
 		

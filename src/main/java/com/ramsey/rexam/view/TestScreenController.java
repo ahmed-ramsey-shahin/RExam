@@ -47,7 +47,7 @@ public class TestScreenController {
 				
 				var result = QuestionPanelGenerator.createQuestionPanel();
 				result.getValue().questionNumberText.setText(
-						String.format("Question Number: %d", questionPanels.getSize() + 1)
+						String.format("Question Number: %d", questionPanels.size() + 1)
 				);
 				result.getValue().questionText.setText(question.getQuestion());
 				ToggleGroup toggleGroup = new ToggleGroup();
