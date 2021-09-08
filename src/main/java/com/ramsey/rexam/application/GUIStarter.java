@@ -24,6 +24,7 @@ public class GUIStarter extends Application {
 		);
 		stage.setTitle("Exam Selection");
 		stage.setScene(new Scene(root));
+		stage.centerOnScreen();
 		stage.show();
 		
 	}
