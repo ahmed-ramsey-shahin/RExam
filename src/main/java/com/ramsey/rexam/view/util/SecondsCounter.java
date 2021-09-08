@@ -51,7 +51,7 @@ public class SecondsCounter implements Runnable {
 					format.format(temp)
 			));
 			
-			if(!triggered) {
+			if(seconds.compareTo(300L) < 0 && !triggered) {
 				
 				controller.playAlertSound();
 				timerText.setFill(Color.RED);
