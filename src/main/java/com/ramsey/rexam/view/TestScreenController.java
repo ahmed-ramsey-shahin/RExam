@@ -29,9 +29,14 @@ public class TestScreenController {
 	public ScrollPane questionsScrollPane;
 	@FXML
 	public CheckBox markForReviewCheckBox;
+	@FXML
+	public Button previousButton;
+	@FXML
+	public Button nextButton;
 	private String studentName;
 	private Exam exam;
 	private LinkedList<Pair<Node, QuestionPanelController>> questionPanels;
+	private LinkedList<Pair<Node, QuestionPanelController>>.Node currentNode;
 	
 	public void init(String studentName, Exam exam) {
 		
@@ -46,9 +51,6 @@ public class TestScreenController {
 			try {
 				
 				var result = QuestionPanelGenerator.createQuestionPanel();
-				result.getValue().questionNumberText.setText(
-						String.format("Question Number: %d", questionPanels.size() + 1)
-				);
 				result.getValue().questionText.setText(question.getQuestion());
 				ToggleGroup toggleGroup = new ToggleGroup();
 				question.getAnswers().forEach(answer -> {
@@ -57,6 +59,7 @@ public class TestScreenController {
 					radioButton.setText(answer.getText());
 					radioButton.setValue(answer.getId());
 					radioButton.setToggleGroup(toggleGroup);
+					radioButton.setStyle("-fx-padding: 15px; -fx-font-size: 15px;");
 					result.getValue().answersVBox.getChildren().add(radioButton);
 					
 				});
@@ -75,19 +78,28 @@ public class TestScreenController {
 			}
 			
 		});
-		questionScrollPane.setContent(questionPanels.getHead().getData().getKey());
+		currentNode = questionPanels.getHead();
+		questionScrollPane.setContent(currentNode.getData().getKey());
+		previousButton.setDisable(currentNode.getPrevious() == null);
+		nextButton.setDisable(currentNode.getNext() == null);
 		
 	}
 	
 	public void previousButtonClicked() {
 	
-		//
+		currentNode = currentNode.getPrevious();
+		questionScrollPane.setContent(currentNode.getData().getKey());
+		previousButton.setDisable(currentNode.getPrevious() == null);
+		nextButton.setDisable(currentNode.getNext() == null);
 		
 	}
 	
 	public void nextButtonClicked() {
-	
-		//
+		
+		currentNode = currentNode.getNext();
+		questionScrollPane.setContent(currentNode.getData().getKey());
+		previousButton.setDisable(currentNode.getPrevious() == null);
+		nextButton.setDisable(currentNode.getNext() == null);
 		
 	}
 	

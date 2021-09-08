@@ -9,10 +9,6 @@ public class QuestionPanelController {
 	@FXML
 	public Text questionText;
 	@FXML
-	public Text questionNumberText;
-	@FXML
 	public VBox answersVBox;
-	
-	//
 	
 }
