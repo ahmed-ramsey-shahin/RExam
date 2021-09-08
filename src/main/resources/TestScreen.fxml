@@ -24,7 +24,7 @@
    <Button fx:id="previousButton" layoutX="14.0" layoutY="693.0" mnemonicParsing="false" onMouseClicked="#previousButtonClicked" text="Previous" AnchorPane.bottomAnchor="14.0" AnchorPane.leftAnchor="14.0" />
    <Button fx:id="nextButton" layoutX="14.0" layoutY="667.0" mnemonicParsing="false" onMouseClicked="#nextButtonClicked" prefHeight="26.0" prefWidth="64.0" text="Next" AnchorPane.bottomAnchor="14.0" AnchorPane.leftAnchor="119.0" />
    <Button fx:id="finishButton" disable="true" layoutX="14.0" layoutY="641.0" mnemonicParsing="false" onMouseClicked="#finishMouseClicked" prefHeight="26.0" prefWidth="64.0" text="Finish" AnchorPane.bottomAnchor="14.0" AnchorPane.leftAnchor="224.0" />
-   <ScrollPane fx:id="questionsScrollPane" layoutX="790.0" layoutY="518.0" prefHeight="226.0" prefWidth="207.0" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="506.0" />
+   <ScrollPane fx:id="questionsScrollPane" fitToHeight="true" fitToWidth="true" layoutX="790.0" layoutY="518.0" prefHeight="226.0" prefWidth="207.0" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="506.0" />
    <CheckBox fx:id="markForReviewCheckBox" layoutX="64.0" layoutY="610.0" mnemonicParsing="false" text="Mark For Review" AnchorPane.bottomAnchor="98.0" AnchorPane.leftAnchor="64.0">
       <font>
          <Font size="18.0" />
