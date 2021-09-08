@@ -7,11 +7,10 @@
 <?import javafx.scene.text.Text?>
 
 <AnchorPane prefHeight="527.0" prefWidth="594.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.ramsey.rexam.view.QuestionPanelController">
-    <ScrollPane prefHeight="58.0" prefWidth="200.0" AnchorPane.bottomAnchor="455.0" AnchorPane.leftAnchor="14.0"
-                AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="14.0">
+    <ScrollPane prefHeight="58.0" prefWidth="200.0" AnchorPane.bottomAnchor="455.0" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="14.0">
         <Text fx:id="questionText" strokeType="OUTSIDE" strokeWidth="0.0" text="Question">
             <font>
-              <Font size="20.0"/>
+              <Font size="20.0" />
             </font>
         </Text>
     </ScrollPane>

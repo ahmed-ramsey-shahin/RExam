@@ -2,18 +2,20 @@ package com.ramsey.rexam.view;
 
 import com.ramsey.rexam.entity.Exam;
 import com.ramsey.rexam.entity.Question;
-import com.ramsey.rexam.view.util.CustomRadioButton;
+import com.ramsey.rexam.view.util.*;
 import com.ramsey.rexam.view.util.LinkedList;
-import com.ramsey.rexam.view.util.Pair;
-import com.ramsey.rexam.view.util.QuestionPanelGenerator;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.*;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 import javafx.scene.text.Text;
+import javafx.util.Duration;
 
 import javax.swing.*;
 import java.io.IOException;
-import java.util.List;
+import java.net.URISyntaxException;
+import java.util.*;
 
 public class TestScreenController {
 	
@@ -37,6 +39,8 @@ public class TestScreenController {
 	private Exam exam;
 	private LinkedList<Pair<Node, QuestionPanelController>> questionPanels;
 	private LinkedList<Pair<Node, QuestionPanelController>>.Node currentNode;
+	private Thread timerThread;
+	private MediaPlayer player;
 	
 	public void init(String studentName, Exam exam) {
 		
@@ -53,6 +57,7 @@ public class TestScreenController {
 				var result = QuestionPanelGenerator.createQuestionPanel();
 				result.getValue().questionText.setText(question.getQuestion());
 				ToggleGroup toggleGroup = new ToggleGroup();
+				
 				question.getAnswers().forEach(answer -> {
 					
 					CustomRadioButton<Long> radioButton = new CustomRadioButton<>();
@@ -63,6 +68,7 @@ public class TestScreenController {
 					result.getValue().answersVBox.getChildren().add(radioButton);
 					
 				});
+				
 				questionPanels.insert(result);
 				
 			} catch(IOException e) {
@@ -78,10 +84,12 @@ public class TestScreenController {
 			}
 			
 		});
+		
 		currentNode = questionPanels.getHead();
 		questionScrollPane.setContent(currentNode.getData().getKey());
 		previousButton.setDisable(currentNode.getPrevious() == null);
 		nextButton.setDisable(currentNode.getNext() == null);
+		startTimer();
 		
 	}
 	
@@ -105,7 +113,52 @@ public class TestScreenController {
 	
 	public void finishMouseClicked() {
 	
-		//
+		stopTheTest();
+		
+	}
+	
+	private void startTimer() {
+		
+		timerThread = new Thread(
+				new SecondsCounter(exam.getTimeInMinutes() * 60L, timerText, this)
+		);
+		timerThread.setDaemon(true);
+		timerThread.start();
+		
+	}
+	
+	public void playAlertSound() {
+		
+		new Thread(() -> {
+			
+			Media beepBeep = null;
+			
+			try {
+				
+				beepBeep = new Media(
+						Objects.requireNonNull(
+								getClass().getClassLoader().getResource("beepbeep.wav")
+						).toURI().toString()
+				);
+				
+			} catch(URISyntaxException ignored) {  }
+			
+			assert beepBeep != null;
+			player = new MediaPlayer(beepBeep);
+			player.play();
+			player.setOnEndOfMedia(() -> player.seek(Duration.ZERO));
+			
+		}).start();
+		
+	}
+	
+	public void stopTheTest() {
+		
+		if(player != null) {
+			
+			player.stop();
+			
+		}
 		
 	}
 	
