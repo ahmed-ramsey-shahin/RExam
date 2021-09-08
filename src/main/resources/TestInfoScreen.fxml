@@ -6,8 +6,8 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane prefHeight="217.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.ramsey.rexam.view.TestInfoScreenController">
-    <Text fx:id="examNameText" layoutX="16.0" layoutY="27.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Exam Name" textAlignment="CENTER" wrappingWidth="567.21630859375" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="14.0">
+<AnchorPane prefHeight="217.0" prefWidth="372.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.ramsey.rexam.view.TestInfoScreenController">
+    <Text fx:id="examNameText" strokeType="OUTSIDE" strokeWidth="0.0" text="Exam Name" textAlignment="CENTER" wrappingWidth="349.21630859375" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="14.0">
         <font>
           <Font size="20.0" />
         </font>
@@ -17,12 +17,12 @@
           <Font size="15.0" />
         </font>
     </Text>
-    <TextField fx:id="passingScoreTextField" editable="false" layoutX="153.0" layoutY="51.0" AnchorPane.leftAnchor="170.0" AnchorPane.topAnchor="51.0" />
+    <TextField fx:id="passingScoreTextField" editable="false" layoutX="153.0" layoutY="51.0" AnchorPane.leftAnchor="170.0" AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="51.0" />
     <Text layoutX="14.0" layoutY="106.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Exam Time In minutes" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="92.0">
         <font>
           <Font size="15.0" />
         </font>
     </Text>
-    <TextField fx:id="examTimeTextField" editable="false" layoutX="153.0" layoutY="88.0" AnchorPane.leftAnchor="170.0" AnchorPane.topAnchor="88.0" />
+    <TextField fx:id="examTimeTextField" editable="false" layoutX="153.0" layoutY="88.0" AnchorPane.leftAnchor="170.0" AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="88.0" />
    <Button layoutX="14.0" layoutY="114.0" mnemonicParsing="false" onMouseClicked="#continueButtonClicked" text="Continue" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="133.0" />
 </AnchorPane>

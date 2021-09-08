@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane prefHeight="732.0" prefWidth="964.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.ramsey.rexam.view.TestScreenController">
+   <Separator layoutX="756.0" layoutY="27.0" orientation="VERTICAL" prefHeight="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="202.0" AnchorPane.topAnchor="0.0" />
+   <Text fx:id="timerText" fill="LIME" layoutX="762.0" layoutY="19.0" strokeType="OUTSIDE" strokeWidth="0.0" text="00:00:00" textAlignment="CENTER" wrappingWidth="192.21630859375" AnchorPane.rightAnchor="12.0" AnchorPane.topAnchor="14.0">
+      <font>
+         <Font size="20.0" />
+      </font>
+   </Text>
+   <ScrollPane fx:id="questionScrollPane" layoutX="48.0" layoutY="72.0" prefHeight="527.0" prefWidth="694.0" AnchorPane.bottomAnchor="133.0" AnchorPane.leftAnchor="64.0" AnchorPane.rightAnchor="206.0" AnchorPane.topAnchor="72.0" />
+   <Text fx:id="testNameText" layoutX="14.0" layoutY="30.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Test Name" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="14.0">
+      <font>
+         <Font size="30.0" />
+      </font>
+   </Text>
+   <Button layoutX="14.0" layoutY="693.0" mnemonicParsing="false" onMouseClicked="#previousButtonClicked" text="Previous" AnchorPane.bottomAnchor="14.0" AnchorPane.leftAnchor="14.0" />
+   <Button layoutX="14.0" layoutY="667.0" mnemonicParsing="false" onMouseClicked="#nextButtonClicked" prefHeight="26.0" prefWidth="64.0" text="Next" AnchorPane.bottomAnchor="14.0" AnchorPane.leftAnchor="119.0" />
+   <Button fx:id="finishButton" disable="true" layoutX="14.0" layoutY="641.0" mnemonicParsing="false" onMouseClicked="#finishMouseClicked" prefHeight="26.0" prefWidth="64.0" text="Finish" AnchorPane.bottomAnchor="14.0" AnchorPane.leftAnchor="224.0" />
+   <ScrollPane fx:id="questionsScrollPane" layoutX="790.0" layoutY="518.0" prefHeight="226.0" prefWidth="207.0" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="506.0" />
+   <CheckBox fx:id="markForReviewCheckBox" layoutX="64.0" layoutY="610.0" mnemonicParsing="false" text="Mark For Review" AnchorPane.bottomAnchor="98.0" AnchorPane.leftAnchor="64.0">
+      <font>
+         <Font size="18.0" />
+      </font>
+   </CheckBox>
+</AnchorPane>
