@@ -4,12 +4,14 @@ public class LinkedList<T> {
 	
 	private Node head;
 	private Node tail;
+	private Integer size;
 	
 	public void insertFirst(T data) {
 		
 		Node newNode = new Node(data);
 		newNode.next = head;
 		head = newNode;
+		size++;
 		
 	}
 	
@@ -29,6 +31,7 @@ public class LinkedList<T> {
 			tail = tail.next;
 			
 		}
+		size++;
 		
 	}
 	
@@ -57,22 +60,8 @@ public class LinkedList<T> {
 			return null;
 		Node temp = head;
 		head = head.next;
+		size--;
 		return temp;
-		
-	}
-	
-	public void print() {
-		
-		Node current = head;
-		
-		while(current != null) {
-			
-			System.out.print(current.getData() + " ");
-			current = current.next;
-			
-		}
-		
-		System.out.println();
 		
 	}
 	
@@ -85,6 +74,12 @@ public class LinkedList<T> {
 	public Boolean isEmpty() {
 		
 		return head == null;
+		
+	}
+	
+	public Integer getSize() {
+		
+		return size;
 		
 	}
 	

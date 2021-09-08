@@ -3,6 +3,7 @@ package com.ramsey.rexam.view;
 import com.ramsey.rexam.entity.Exam;
 import com.ramsey.rexam.entity.Question;
 import com.ramsey.rexam.view.util.CustomRadioButton;
+import com.ramsey.rexam.view.util.LinkedList;
 import com.ramsey.rexam.view.util.Pair;
 import com.ramsey.rexam.view.util.QuestionPanelGenerator;
 import javafx.fxml.FXML;
@@ -12,7 +13,6 @@ import javafx.scene.text.Text;
 
 import javax.swing.*;
 import java.io.IOException;
-import java.util.LinkedList;
 import java.util.List;
 
 public class TestScreenController {
@@ -47,7 +47,7 @@ public class TestScreenController {
 				
 				var result = QuestionPanelGenerator.createQuestionPanel();
 				result.getValue().questionNumberText.setText(
-						String.format("Question Number: %d", questionPanels.size() + 1)
+						String.format("Question Number: %d", questionPanels.getSize() + 1)
 				);
 				result.getValue().questionText.setText(question.getQuestion());
 				ToggleGroup toggleGroup = new ToggleGroup();
@@ -60,7 +60,7 @@ public class TestScreenController {
 					result.getValue().answersVBox.getChildren().add(radioButton);
 					
 				});
-				questionPanels.add(result);
+				questionPanels.insert(result);
 				
 			} catch(IOException e) {
 				
@@ -75,7 +75,7 @@ public class TestScreenController {
 			}
 			
 		});
-		questionScrollPane.setContent(questionPanels.getFirst().getKey());
+		questionScrollPane.setContent(questionPanels.getHead().getData().getKey());
 		
 	}
 	
