@@ -295,7 +295,7 @@ public class TestScreenController {
 		stage.centerOnScreen();
 		stage.setTitle(String.format("%s results, on %s Test", studentName, exam.getName()));
 		stage.show();
-		((ResultScreenClass) loader.getController()).init(
+		((ResultScreenController) loader.getController()).init(
 				studentName,
 				exam,
 				answers,

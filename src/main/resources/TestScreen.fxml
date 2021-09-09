@@ -23,9 +23,9 @@
          <Font size="30.0" />
       </font>
    </Text>
-   <Button fx:id="previousButton" layoutX="14.0" layoutY="693.0" mnemonicParsing="false" onMouseClicked="#previousButtonClicked" text="Previous" AnchorPane.bottomAnchor="14.0" AnchorPane.leftAnchor="14.0" />
-   <Button fx:id="nextButton" layoutX="14.0" layoutY="667.0" mnemonicParsing="false" onMouseClicked="#nextButtonClicked" prefHeight="26.0" prefWidth="64.0" text="Next" AnchorPane.bottomAnchor="14.0" AnchorPane.leftAnchor="119.0" />
-   <Button fx:id="finishButton" disable="true" layoutX="14.0" layoutY="641.0" mnemonicParsing="false" onMouseClicked="#finishMouseClicked" prefHeight="26.0" prefWidth="64.0" text="Finish" AnchorPane.bottomAnchor="14.0" AnchorPane.leftAnchor="224.0" />
+   <Button fx:id="previousButton" layoutX="14.0" layoutY="693.0" mnemonicParsing="false" onMouseClicked="#previousButtonClicked" prefHeight="37.0" prefWidth="92.0" text="Previous" AnchorPane.bottomAnchor="14.0" AnchorPane.leftAnchor="14.0" />
+   <Button fx:id="nextButton" layoutX="14.0" layoutY="667.0" mnemonicParsing="false" onMouseClicked="#nextButtonClicked" prefHeight="37.0" prefWidth="92.0" text="Next" AnchorPane.bottomAnchor="14.0" AnchorPane.leftAnchor="139.0" />
+   <Button fx:id="finishButton" disable="true" layoutX="14.0" layoutY="641.0" mnemonicParsing="false" onMouseClicked="#finishMouseClicked" prefHeight="37.0" prefWidth="92.0" text="Finish" AnchorPane.bottomAnchor="14.0" AnchorPane.leftAnchor="264.0" />
    <ScrollPane fx:id="questionsScrollPane" fitToHeight="true" fitToWidth="true" layoutX="790.0" layoutY="518.0" prefHeight="226.0" prefWidth="207.0" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="506.0">
       <VBox prefHeight="200.0" prefWidth="100.0" spacing="50.0">
          <padding>

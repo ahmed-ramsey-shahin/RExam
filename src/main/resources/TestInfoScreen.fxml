@@ -24,5 +24,5 @@
         </font>
     </Text>
     <TextField fx:id="examTimeTextField" editable="false" layoutX="153.0" layoutY="88.0" AnchorPane.leftAnchor="170.0" AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="88.0" />
-   <Button layoutX="14.0" layoutY="114.0" mnemonicParsing="false" onMouseClicked="#continueButtonClicked" text="Continue" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="133.0" />
+   <Button layoutX="14.0" layoutY="114.0" mnemonicParsing="false" onMouseClicked="#continueButtonClicked" prefHeight="37.0" prefWidth="92.0" text="Continue" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="133.0" />
 </AnchorPane>
