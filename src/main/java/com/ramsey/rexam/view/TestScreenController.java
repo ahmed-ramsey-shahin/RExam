@@ -24,8 +24,20 @@ import java.io.IOException;
 import java.net.URISyntaxException;
 import java.text.NumberFormat;
 import java.util.*;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class TestScreenController {
+	
+	private String studentName;
+	private Exam exam;
+	private MediaPlayer player;
+	private Image check;
+	private Image close;
+	private LinkedList<Pair<Node, QuestionPanelController>> questionPanels;
+	private LinkedList<Pair<Node, QuestionPanelController>>.Node currentNode;
+	private HashMap<Question, Answer> answers;
+	private HashMap<Question, ImageView> imageViews;
+	private HashMap<Question, Boolean> markedForReview;
 	
 	@FXML
 	public Text timerText;
@@ -43,45 +55,99 @@ public class TestScreenController {
 	public Button previousButton;
 	@FXML
 	public Button nextButton;
-	private String studentName;
-	private Exam exam;
-	private LinkedList<Pair<Node, QuestionPanelController>> questionPanels;
-	private LinkedList<Pair<Node, QuestionPanelController>>.Node currentNode;
-	private MediaPlayer player;
-	private Image check;
-	private Image close;
-	HashMap<Question, Answer> answers;
-	HashMap<Question, ImageView> imageViews;
 	
-	public void init(String studentName, Exam exam) {
+	private void refreshButtons() {
 		
-		questionPanels = new LinkedList<>();
-		this.studentName = studentName;
-		this.exam = exam;
-		testNameText.setText(String.format("%s Test", exam.getName()));
+		questionScrollPane.setContent(currentNode.getData().getKey());
+		previousButton.setDisable(currentNode.getPrevious() == null);
+		nextButton.setDisable(currentNode.getNext() == null);
+		finishButton.setDisable(!canFinish());
+		markForReviewCheckBox.setSelected(
+				markedForReview.getOrDefault(currentNode.getData().getValue().question, false)
+		);
+		
+	}
+	
+	private void startTimer() {
+		
+		Thread timerThread = new Thread(
+				new SecondsCounter(exam.getTimeInMinutes() * 60L, timerText, this)
+		);
+		timerThread.setDaemon(true);
+		timerThread.start();
+		
+	}
+	
+	private Boolean canFinish() {
+		
+		return answers.keySet().size() == questionPanels.size();
+		
+	}
+	
+	private void refreshTotalQuestions() {
+		
+		imageViews.get(currentNode.getData().getValue().question).setImage(check);
+		
+	}
+	
+	private void initializeExamSummary() {
+		
+		VBox vBox = (VBox) questionsScrollPane.getContent();
+		NumberFormat format = NumberFormat.getNumberInstance();
+		format.setMinimumIntegerDigits(questionPanels.size().toString().length());
+		var question = questionPanels.getHead();
+
+		while(question != null) {
+			
+			HBox hBox = new HBox();
+			hBox.setSpacing(20);
+			hBox.setAlignment(Pos.CENTER);
+			hBox.autosize();
+			vBox.getChildren().add(hBox);
+			
+			for(int j = 0; j <= 3; ++j) {
+
+				if(question != null) {
+					
+					ImageView child = new ImageView(close);
+					imageViews.put(question.getData().getValue().question, child);
+					child.setFitHeight(24);
+					child.setFitWidth(24);
+					hBox.getChildren().add(child);
+					question = question.getNext();
+
+				}
+
+			}
+
+		}
+		
+	}
+	
+	private void handleSelectAnswerEvent(Pair<Question, Answer> eventValue) {
+		
+		answers.put(eventValue.getKey(), eventValue.getValue());
+		refreshTotalQuestions();
+		
+	}
+	
+	private void createQuestionPanels() {
+		
 		List<Question> questions = exam.getQuestions();
 		Collections.shuffle(questions);
-		answers = new HashMap<>();
-		imageViews = new HashMap<>();
-		check = new Image(
-				Objects.requireNonNull(
-						getClass().getClassLoader().getResourceAsStream("check.png")
-				)
-		);
-		close = new Image(
-				Objects.requireNonNull(
-						getClass().getClassLoader().getResourceAsStream("close.png")
-				)
-		);
+		AtomicInteger questionNumber = new AtomicInteger();
 		
 		questions.forEach(question -> {
 			
 			Collections.shuffle(question.getAnswers());
+			questionNumber.addAndGet(1);
 			
 			try {
 				
 				var result = QuestionPanelGenerator.createQuestionPanel();
-				result.getValue().questionText.setText(question.getQuestion());
+				result.getValue().questionText.setText(
+						String.format("%d - %s", questionNumber.getPlain(), question.getQuestion())
+				);
 				result.getValue().question = question;
 				ToggleGroup toggleGroup = new ToggleGroup();
 				
@@ -125,29 +191,39 @@ public class TestScreenController {
 		});
 		
 		currentNode = questionPanels.getHead();
+		
+	}
+	
+	public void init(String studentName, Exam exam) {
+		
+		this.studentName = studentName;
+		this.exam = exam;
+		testNameText.setText(String.format("%s Test", exam.getName()));
+		questionPanels = new LinkedList<>();
+		answers = new HashMap<>();
+		imageViews = new HashMap<>();
+		markedForReview = new HashMap<>();
+		markForReviewCheckBox.selectedProperty().addListener(
+				(
+						ObservableValue<? extends Boolean> obs,
+						Boolean wasPreviouslySelected,
+						Boolean isNowSelected
+				) -> handleMarkForReviewEvent(isNowSelected)
+		);
+		check = new Image(
+				Objects.requireNonNull(
+						getClass().getClassLoader().getResourceAsStream("check.png")
+				)
+		);
+		close = new Image(
+				Objects.requireNonNull(
+						getClass().getClassLoader().getResourceAsStream("close.png")
+				)
+		);
+		createQuestionPanels();
 		refreshButtons();
 		startTimer();
-		initializeTotalQuestions();
-		
-	}
-	
-	public void previousButtonClicked() {
-	
-		currentNode = currentNode.getPrevious();
-		refreshButtons();
-		
-	}
-	
-	public void nextButtonClicked() {
-		
-		currentNode = currentNode.getNext();
-		refreshButtons();
-		
-	}
-	
-	public void finishMouseClicked() {
-	
-		stopTheTest();
+		initializeExamSummary();
 		
 	}
 	
@@ -186,75 +262,32 @@ public class TestScreenController {
 		
 	}
 	
-	private void refreshButtons() {
+	private void handleMarkForReviewEvent(Boolean isMarked) {
 		
-		questionScrollPane.setContent(currentNode.getData().getKey());
-		previousButton.setDisable(currentNode.getPrevious() == null);
-		nextButton.setDisable(currentNode.getNext() == null);
-		finishButton.setDisable(!canFinish());
+		markedForReview.put(currentNode.getData().getValue().question, isMarked);
 		
 	}
 	
-	private void startTimer() {
+	@FXML
+	public void previousButtonClicked() {
 		
-		Thread timerThread = new Thread(
-				new SecondsCounter(exam.getTimeInMinutes() * 60L, timerText, this)
-		);
-		timerThread.setDaemon(true);
-		timerThread.start();
+		currentNode = currentNode.getPrevious();
+		refreshButtons();
 		
 	}
 	
-	private Boolean canFinish() {
+	@FXML
+	public void nextButtonClicked() {
 		
-		return answers.keySet().size() == questionPanels.size();
-		
-	}
-	
-	private void refreshTotalQuestions() {
-		
-		imageViews.get(currentNode.getData().getValue().question).setImage(check);
+		currentNode = currentNode.getNext();
+		refreshButtons();
 		
 	}
 	
-	private void initializeTotalQuestions() {
+	@FXML
+	public void finishMouseClicked() {
 		
-		VBox vBox = (VBox) questionsScrollPane.getContent();
-		NumberFormat format = NumberFormat.getNumberInstance();
-		format.setMinimumIntegerDigits(questionPanels.size().toString().length());
-		var question = questionPanels.getHead();
-
-		while(question != null) {
-			
-			HBox hBox = new HBox();
-			hBox.setSpacing(20);
-			hBox.setAlignment(Pos.CENTER);
-			hBox.autosize();
-			vBox.getChildren().add(hBox);
-			
-			for(int j = 0; j <= 3; ++j) {
-
-				if(question != null) {
-					
-					ImageView child = new ImageView(close);
-					imageViews.put(question.getData().getValue().question, child);
-					child.setFitHeight(24);
-					child.setFitWidth(24);
-					hBox.getChildren().add(child);
-					question = question.getNext();
-
-				}
-
-			}
-
-		}
-		
-	}
-	
-	private void handleSelectAnswerEvent(Pair<Question, Answer> eventValue) {
-		
-		answers.put(eventValue.getKey(), eventValue.getValue());
-		refreshTotalQuestions();
+		stopTheTest();
 		
 	}
 	
