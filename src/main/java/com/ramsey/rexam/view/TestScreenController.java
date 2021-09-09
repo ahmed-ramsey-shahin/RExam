@@ -7,8 +7,10 @@ import com.ramsey.rexam.view.util.*;
 import com.ramsey.rexam.view.util.LinkedList;
 import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -17,6 +19,7 @@ import javafx.scene.layout.VBox;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.text.Text;
+import javafx.stage.Stage;
 import javafx.util.Duration;
 
 import javax.swing.*;
@@ -259,6 +262,29 @@ public class TestScreenController {
 			player.stop();
 			
 		}
+		
+		Stage stage = (Stage) testNameText.getScene().getWindow();
+		FXMLLoader loader = new FXMLLoader(
+				Objects.requireNonNull(getClass().getClassLoader().getResource("ResultScreen.fxml"))
+		);
+		Scene scene = null;
+		
+		try {
+			
+			scene = new Scene(loader.load());
+			
+		} catch(IOException ignored) {}
+		
+		stage.setScene(scene);
+		stage.centerOnScreen();
+		stage.setTitle(String.format("%s results, on %s Test", studentName, exam.getName()));
+		stage.show();
+		((ResultScreenClass) loader.getController()).init(
+				studentName,
+				exam,
+				answers,
+				markedForReview
+		);
 		
 	}
 	
