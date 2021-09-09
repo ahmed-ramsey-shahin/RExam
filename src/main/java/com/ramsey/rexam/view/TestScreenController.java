@@ -256,7 +256,7 @@ public class TestScreenController {
 				
 				beepBeep = new Media(
 						Objects.requireNonNull(
-								getClass().getClassLoader().getResource("beepbeep.wav")
+								getClass().getClassLoader().getResource("beepbeep.mp3")
 						).toURI().toString()
 				);
 				
