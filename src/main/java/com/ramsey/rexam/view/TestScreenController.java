@@ -14,6 +14,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.media.Media;
@@ -114,6 +115,15 @@ public class TestScreenController {
 					
 					ImageView child = new ImageView(close);
 					imageViews.put(question.getData().getValue().question, child);
+					LinkedList<Pair<Node, QuestionPanelController>>.Node finalQuestion = question;
+					
+					child.setOnMouseClicked((MouseEvent event) -> {
+						
+						currentNode = finalQuestion;
+						refreshButtons();
+						
+					});
+					
 					child.setFitHeight(24);
 					child.setFitWidth(24);
 					hBox.getChildren().add(child);
@@ -194,6 +204,12 @@ public class TestScreenController {
 		});
 		
 		currentNode = questionPanels.getHead();
+		
+	}
+	
+	private void handleMarkForReviewEvent(Boolean isMarked) {
+		
+		markedForReview.put(currentNode.getData().getValue().question, isMarked);
 		
 	}
 	
@@ -285,12 +301,6 @@ public class TestScreenController {
 				answers,
 				markedForReview
 		);
-		
-	}
-	
-	private void handleMarkForReviewEvent(Boolean isMarked) {
-		
-		markedForReview.put(currentNode.getData().getValue().question, isMarked);
 		
 	}
 	
