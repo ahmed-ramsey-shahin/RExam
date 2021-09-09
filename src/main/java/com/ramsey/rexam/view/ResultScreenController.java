@@ -4,16 +4,20 @@ import com.ramsey.rexam.entity.Answer;
 import com.ramsey.rexam.entity.Exam;
 import com.ramsey.rexam.entity.Question;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
+import javafx.stage.Stage;
 
+import java.io.IOException;
 import java.util.HashMap;
 
 public class ResultScreenController {
 	
-	private Exam exam;
 	private HashMap<Question, Answer> answers;
 	private HashMap<Question, Boolean> markedForReview;
 	
@@ -43,7 +47,6 @@ public class ResultScreenController {
 			HashMap<Question, Boolean> markedForReview
 	) {
 		
-		this.exam = exam;
 		this.answers = answers;
 		this.markedForReview = markedForReview;
 		int numberOfCorrectAnswers = (int) answers.keySet().stream()
@@ -90,6 +93,23 @@ public class ResultScreenController {
 		
 		markedForReview.keySet().removeIf(key -> markedForReview.get(key).equals(false));
 		answers.keySet().removeIf(key -> !markedForReview.containsKey(key));
+		Parent root = null;
+		FXMLLoader loader = new FXMLLoader(
+				getClass().getClassLoader().getResource("ReviewScreen.fxml")
+		);
+		
+		try {
+			
+			root = loader.load();
+			
+		} catch(IOException ignored){  }
+		
+		Stage stage = new Stage();
+		stage.setTitle("Review Marked Questions");
+		assert root != null;
+		stage.setScene(new Scene(root));
+		stage.show();
+		((ReviewScreenController) loader.getController()).init(answers);
 		
 	}
 	
