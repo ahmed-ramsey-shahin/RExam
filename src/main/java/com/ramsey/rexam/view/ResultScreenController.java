@@ -56,6 +56,9 @@ public class ResultScreenController {
 		numberOfSolvedQuestionsTextField.setText(String.valueOf(answers.size()));
 		requiredScoreTextField.setText(String.format("%.1f%%", exam.getPassingScore()));
 		numberOfCorrectAnswersTextField.setText(String.valueOf(numberOfCorrectAnswers));
+		reviewMarkedQuestionsButton.setDisable(
+				markedForReview.keySet().stream().allMatch(key -> markedForReview.get(key).equals(false))
+		);
 		achievedScoreTextField.setText(String.format(
 				"%.1f%%",
 				score
@@ -85,7 +88,8 @@ public class ResultScreenController {
 	@FXML
 	public void onReviewMarkedQuestionsButtonClicked() {
 		
-		//
+		markedForReview.keySet().removeIf(key -> markedForReview.get(key).equals(false));
+		answers.keySet().removeIf(key -> !markedForReview.containsKey(key));
 		
 	}
 	

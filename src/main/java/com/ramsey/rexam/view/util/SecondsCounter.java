@@ -1,6 +1,7 @@
 package com.ramsey.rexam.view.util;
 
 import com.ramsey.rexam.view.TestScreenController;
+import javafx.application.Platform;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 
@@ -67,7 +68,7 @@ public class SecondsCounter implements Runnable {
 			
 		}
 		
-		controller.stopTheTest();
+		Platform.runLater(controller::stopTheTest);
 		
 	}
 	
